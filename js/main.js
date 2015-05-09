@@ -40,8 +40,8 @@ function init () {
     stage.addChild(text);
 
     manifest = [
-        {src: "../javascript/images/sprites_boo.png", id: "boo"},
-        {src: "../javascript/images/boo_hiding.png", id: "boo_hiding"}
+        {src: "../images/sprites_boo.png", id: "boo"},
+        {src: "../images/boo_hiding.png", id: "boo_hiding"}
     ];
 
     queue = new createjs.LoadQueue(false);
