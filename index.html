@@ -53,9 +53,9 @@
 			var tempCircle = new createjs.Shape();
 		    var randomNo = Math.round(Math.random() * 2);
 		    var color = ["#00ffb6", "#b600ff", "#ffb600"];
-			tempCircle.graphics.beginFill(color[randomNo]).drawCircle(0, 0, 40);
-			tempCircle.x = 40 + (Math.random() * (stage.canvas.width - 80));
-			tempCircle.y = 40 + (Math.random() * (stage.canvas.height - 80));
+			tempCircle.graphics.beginFill(color[randomNo]).drawCircle(0, 0, 80);
+			tempCircle.x = 80 + (Math.random() * (stage.canvas.width - 160));
+			tempCircle.y = 80 + (Math.random() * (stage.canvas.height - 160));
 		    tempCircle.on("click", function(evt) {
 		            stage.removeChild(this);
 		            createjs.Tween.removeTweens(this);
@@ -65,9 +65,9 @@
 
 		    createjs.Tween.get(tempCircle)
 		            .to({scaleX: 0.2, scaleY: 0.2, alpha: 0.1})
-		            .to({scaleX: 1, scaleY: 1, alpha: 1}, (500 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.bounceOut)
-		            .wait((200 - 5 * counter < 0) ? 0 : (200 - 5 * counter))
-		            .to({scaleX: 0, scaleY: 0, alpha: 0}, (500 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.backIn)
+		            .to({scaleX: 1, scaleY: 1, alpha: 1}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.bounceOut)
+		            .wait((700 - 5 * counter < 0) ? 0 : (200 - 5 * counter))
+		            .to({scaleX: 0, scaleY: 0, alpha: 0}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.backIn)
 		            .call(youLost);
 		    stage.addChild(tempCircle);
 		}
