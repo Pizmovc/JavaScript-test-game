@@ -1,23 +1,26 @@
 <!DOCTYPE <!DOCTYPE html>
 <html>
 <head>
+	<style>
+		body { margin: 0; padding: 0; background-color: #ccc; }
+          #canvas { width: 90%; margin: 100px auto; height: 60%; display:block;}
+	</style>
 	<script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
 	<script src="https://code.createjs.com/createjs-2014.12.12.min.js"></script>
 	<script>
 		var stage, counter = 0;
 		var text, pause;
 		function init () {
+			var canvas = document.getElementById('canvas');
+			canvas.width = canvas.clientWidth;
+			canvas.height = canvas.clientHeight;
 			stage = new createjs.Stage("canvas");
 		    stage.on("mouseleave", function (evt) {
 		            if(!isEndOfGame){
 		                createjs.Ticker.paused = true;
 		                pause = new createjs.Shape();
-		                pause.graphics.beginFill("#e2895f").drawRoundRect(stage.canvas.width / 3 - 40, 40, 
-		                                                                    80, stage.canvas.height - 80, 
-		                                                                    10)
-		                                                        .drawRoundRect(2 * stage.canvas.width / 3 - 40, 40, 
-		                                                                    80, stage.canvas.height - 80, 
-		                                                                    10)
+		                pause.graphics.beginFill("#e2895f").drawRoundRect(stage.canvas.width / 3 - 40, 40, 80, stage.canvas.height - 80, 10)
+		                        .drawRoundRect(2 * stage.canvas.width / 3 - 40, 40,  80, stage.canvas.height - 80, 10);
 		                pause.alpha = 0.5;
 		                stage.addChild(pause);
 		            }
@@ -92,7 +95,7 @@
 </head>
 <body onload="init()">
 <h2>test</h2>
-	<canvas id="canvas" width="500" height="500">
+	<canvas id="canvas">
 		alternate content
 	</canvas>
 </body>
