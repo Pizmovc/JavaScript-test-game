@@ -1,10 +1,13 @@
 var stage, counter = 0;
-var text, pause;
+var text, pause, queue, boo;
 function init () {
     var canvas = document.getElementById('canvas');
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
     stage = new createjs.Stage("canvas");
+
+    
+
     stage.on("mouseleave", function (evt) {
             if(!isEndOfGame){
                 createjs.Ticker.paused = true;
@@ -27,8 +30,6 @@ function init () {
     background.graphics.beginFill("#f4f3f2").drawRoundRect(0, 0, stage.canvas.width, stage.canvas.height, 10);
     stage.addChild(background);
 
-    createCircle();
-
     createjs.Ticker.on("tick", tick);
     createjs.Ticker.setFPS(30);
     createjs.Ticker.paused = true;
@@ -37,6 +38,38 @@ function init () {
     text.x = 5;
     text.y = 5;
     stage.addChild(text);
+
+    manifest = [
+        {src: "../javascript/images/sprites_boo.png", id: "boo"},
+        {src: "../javascript/images/boo_hiding.png", id: "boo_hiding"}
+    ];
+
+    queue = new createjs.LoadQueue(false);
+    queue.on("complete", handleComplete);
+    queue.loadManifest(manifest, true);
+
+}
+function handleComplete () {
+    var spriteSheet = new createjs.SpriteSheet({
+        framerate: 30,
+        "images": [queue.getResult("boo_hiding")],
+        "frames": {"width": 29, "height": 53, "regX": 15, "regY": 53, "count": 9, "spacing": 3},
+        "animations": {
+            "bob": [0, 7, "bob"],
+            "scare": {
+                "frames": [8, 8, 8],
+                "next": "bob"
+            }
+        }
+    });
+    boo = new createjs.Sprite(spriteSheet, "bob");
+    boo.y = stage.canvas.height;
+    boo.x = 50;
+    boo.on("click", function (evt) {
+        boo.gotoAndPlay("scare");
+    });
+    stage.addChild(boo);
+    createCircle();
 }
 
 function createCircle(){
@@ -58,7 +91,7 @@ function createCircle(){
             .to({scaleX: 1, scaleY: 1, alpha: 1}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.bounceOut)
             .wait((700 - 5 * counter < 0) ? 0 : (200 - 5 * counter))
             .to({scaleX: 0, scaleY: 0, alpha: 0}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.backIn)
-            .wait(100)
+            .wait(200)
             .call(youLost);
     stage.addChild(tempCircle);
 }
