@@ -1,17 +1,16 @@
 var stage, counter = 0;
 var text, pause;
 function init () {
-	stage = new createjs.Stage("canvas");
+    var canvas = document.getElementById('canvas');
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    stage = new createjs.Stage("canvas");
     stage.on("mouseleave", function (evt) {
             if(!isEndOfGame){
                 createjs.Ticker.paused = true;
                 pause = new createjs.Shape();
-                pause.graphics.beginFill("#e2895f").drawRoundRect(stage.canvas.width / 3 - 40, 40, 
-                                                                    80, stage.canvas.height - 80, 
-                                                                    10)
-                                                        .drawRoundRect(2 * stage.canvas.width / 3 - 40, 40, 
-                                                                    80, stage.canvas.height - 80, 
-                                                                    10)
+                pause.graphics.beginFill("#e2895f").drawRoundRect(stage.canvas.width / 3 - 40, 40, 80, stage.canvas.height - 80, 10)
+                        .drawRoundRect(2 * stage.canvas.width / 3 - 40, 40,  80, stage.canvas.height - 80, 10);
                 pause.alpha = 0.5;
                 stage.addChild(pause);
             }
@@ -30,8 +29,8 @@ function init () {
 
     createCircle();
 
-	createjs.Ticker.on("tick", tick);
-	createjs.Ticker.setFPS(30);
+    createjs.Ticker.on("tick", tick);
+    createjs.Ticker.setFPS(30);
     createjs.Ticker.paused = true;
 
     text = new createjs.Text(counter.toString(), "20px Arial", "#ff7700");
@@ -41,12 +40,12 @@ function init () {
 }
 
 function createCircle(){
-	var tempCircle = new createjs.Shape();
+    var tempCircle = new createjs.Shape();
     var randomNo = Math.round(Math.random() * 2);
     var color = ["#00ffb6", "#b600ff", "#ffb600"];
-	tempCircle.graphics.beginFill(color[randomNo]).drawCircle(0, 0, 40);
-	tempCircle.x = 40 + (Math.random() * (stage.canvas.width - 80));
-	tempCircle.y = 40 + (Math.random() * (stage.canvas.height - 80));
+    tempCircle.graphics.beginFill(color[randomNo]).drawCircle(0, 0, 80);
+    tempCircle.x = 80 + (Math.random() * (stage.canvas.width - 160));
+    tempCircle.y = 80 + (Math.random() * (stage.canvas.height - 160));
     tempCircle.on("click", function(evt) {
             stage.removeChild(this);
             createjs.Tween.removeTweens(this);
@@ -56,9 +55,10 @@ function createCircle(){
 
     createjs.Tween.get(tempCircle)
             .to({scaleX: 0.2, scaleY: 0.2, alpha: 0.1})
-            .to({scaleX: 1, scaleY: 1, alpha: 1}, (500 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.bounceOut)
-            .wait((200 - 5 * counter < 0) ? 0 : (200 - 5 * counter))
-            .to({scaleX: 0, scaleY: 0, alpha: 0}, (500 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.backIn)
+            .to({scaleX: 1, scaleY: 1, alpha: 1}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.bounceOut)
+            .wait((700 - 5 * counter < 0) ? 0 : (200 - 5 * counter))
+            .to({scaleX: 0, scaleY: 0, alpha: 0}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.backIn)
+            .wait(100)
             .call(youLost);
     stage.addChild(tempCircle);
 }
@@ -77,7 +77,7 @@ function youLost(){
 }
 
 function tick (event) {
-	text.text = "Score: " + counter.toString();
+    text.text = "Score: " + counter.toString();
     stage.update();
 
 }
