@@ -1,23 +1,26 @@
 <!DOCTYPE <!DOCTYPE html>
 <html>
 <head>
+	<style>
+		body { margin: 0; padding: 0; background-color: #ccc; }
+          #canvas { width: 90%; margin: 100px auto; height: 60%; display:block;}
+	</style>
 	<script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
 	<script src="https://code.createjs.com/createjs-2014.12.12.min.js"></script>
 	<script>
 		var stage, counter = 0;
 		var text, pause;
 		function init () {
+			var canvas = document.getElementById('canvas');
+			canvas.width = canvas.clientWidth;
+			canvas.height = canvas.clientHeight;
 			stage = new createjs.Stage("canvas");
 		    stage.on("mouseleave", function (evt) {
 		            if(!isEndOfGame){
 		                createjs.Ticker.paused = true;
 		                pause = new createjs.Shape();
-		                pause.graphics.beginFill("#e2895f").drawRoundRect(stage.canvas.width / 3 - 40, 40, 
-		                                                                    80, stage.canvas.height - 80, 
-		                                                                    10)
-		                                                        .drawRoundRect(2 * stage.canvas.width / 3 - 40, 40, 
-		                                                                    80, stage.canvas.height - 80, 
-		                                                                    10)
+		                pause.graphics.beginFill("#e2895f").drawRoundRect(stage.canvas.width / 3 - 40, 40, 80, stage.canvas.height - 80, 10)
+		                        .drawRoundRect(2 * stage.canvas.width / 3 - 40, 40,  80, stage.canvas.height - 80, 10);
 		                pause.alpha = 0.5;
 		                stage.addChild(pause);
 		            }
@@ -50,9 +53,9 @@
 			var tempCircle = new createjs.Shape();
 		    var randomNo = Math.round(Math.random() * 2);
 		    var color = ["#00ffb6", "#b600ff", "#ffb600"];
-			tempCircle.graphics.beginFill(color[randomNo]).drawCircle(0, 0, 40);
-			tempCircle.x = 40 + (Math.random() * (stage.canvas.width - 80));
-			tempCircle.y = 40 + (Math.random() * (stage.canvas.height - 80));
+			tempCircle.graphics.beginFill(color[randomNo]).drawCircle(0, 0, 80);
+			tempCircle.x = 80 + (Math.random() * (stage.canvas.width - 160));
+			tempCircle.y = 80 + (Math.random() * (stage.canvas.height - 160));
 		    tempCircle.on("click", function(evt) {
 		            stage.removeChild(this);
 		            createjs.Tween.removeTweens(this);
@@ -62,9 +65,9 @@
 
 		    createjs.Tween.get(tempCircle)
 		            .to({scaleX: 0.2, scaleY: 0.2, alpha: 0.1})
-		            .to({scaleX: 1, scaleY: 1, alpha: 1}, (500 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.bounceOut)
-		            .wait((200 - 5 * counter < 0) ? 0 : (200 - 5 * counter))
-		            .to({scaleX: 0, scaleY: 0, alpha: 0}, (500 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.backIn)
+		            .to({scaleX: 1, scaleY: 1, alpha: 1}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.bounceOut)
+		            .wait((700 - 5 * counter < 0) ? 0 : (200 - 5 * counter))
+		            .to({scaleX: 0, scaleY: 0, alpha: 0}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.backIn)
 		            .call(youLost);
 		    stage.addChild(tempCircle);
 		}
@@ -91,8 +94,8 @@
 	<title>My own little game</title>
 </head>
 <body onload="init()">
-<h2>test</h2>
-	<canvas id="canvas" width="500" height="500">
+<h2>Click the balls</h2>
+	<canvas id="canvas">
 		alternate content
 	</canvas>
 </body>
