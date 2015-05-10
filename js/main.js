@@ -1,5 +1,5 @@
 var stage, counter = 0;
-var text, pause, queue, boo;
+var background, text, pause, queue, boo;
 function init () {
     var canvas = document.getElementById('canvas');
     canvas.width = canvas.clientWidth;
@@ -26,7 +26,7 @@ function init () {
             }    
             })
 
-    var background = new createjs.Shape();
+    background = new createjs.Shape();
     background.graphics.beginFill("#f4f3f2").drawRoundRect(0, 0, stage.canvas.width, stage.canvas.height, 10);
     stage.addChild(background);
 
@@ -70,27 +70,30 @@ function handleComplete () {
     });
     stage.addChild(boo);
     createCircle();
+    fadeBackground();
 }
 
 function createCircle(){
     var tempCircle = new createjs.Shape();
     var randomNo = Math.round(Math.random() * 2);
     var color = ["#00ffb6", "#b600ff", "#ffb600"];
-    tempCircle.graphics.beginFill(color[randomNo]).drawCircle(0, 0, 80);
+    tempCircle.graphics.beginFill(color[randomNo]).drawCircle(0, 0, 1);
     tempCircle.x = 80 + (Math.random() * (stage.canvas.width - 160));
     tempCircle.y = 80 + (Math.random() * (stage.canvas.height - 160));
     tempCircle.on("click", function(evt) {
             stage.removeChild(this);
             createjs.Tween.removeTweens(this);
+            createjs.Tween.removeTweens(background);
             createCircle();
+            fadeBackground();
             counter++;
             });
 
     createjs.Tween.get(tempCircle)
-            .to({scaleX: 0.2, scaleY: 0.2, alpha: 0.1})
-            .to({scaleX: 1, scaleY: 1, alpha: 1}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.bounceOut)
-            .wait((700 - 5 * counter < 0) ? 0 : (200 - 5 * counter))
-            .to({scaleX: 0, scaleY: 0, alpha: 0}, (700 - 10 * counter < 0) ? 0 : (500 - 10 * counter), createjs.Ease.backIn)
+            .to({scaleX: 0, scaleY: 0, alpha: 0})
+            .to({scaleX: 80, scaleY: 80, alpha: 1}, (700 - 10 * counter < 0) ? 0 : (700 - 10 * counter), createjs.Ease.bounceOut)
+            .wait((700 - 5 * counter < 0) ? 0 : (700 - 5 * counter))
+            .to({scaleX: 0, scaleY: 0, alpha: 0}, (700 - 10 * counter < 0) ? 0 : (700 - 10 * counter), createjs.Ease.backIn)
             .wait(200)
             .call(youLost);
     stage.addChild(tempCircle);
@@ -107,6 +110,13 @@ function youLost(){
             })
     
     stage.addChild(button);
+}
+
+function fadeBackground () {
+    createjs.Tween.get(background)
+            .to({alpha: 1})
+            .to({alpha: 0.0}, 2 * (700 - 10 * counter) + (700 - 5 * counter))
+            .wait(200);
 }
 
 function tick (event) {
